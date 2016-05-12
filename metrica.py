@@ -1,5 +1,4 @@
 from tkinter import *
-import Trip
 import itertools
 from scipy.spatial import distance
 import matplotlib.pyplot as plt
