@@ -9,11 +9,15 @@ trace = 0
 trips = []
 edges = []
 
+canvas = Canvas(width = 1330, height = 700, bg = 'yellow')
+canvas.pack(expand = YES, fill = BOTH)
+gif1 = PhotoImage(file = 'C:\\dev\\map.png')
+canvas.create_image(0, 0, image = gif1, anchor = NW)
 
 class CanvasEventsDemo:
     def __init__(self, parent=None):
-        canvas = Canvas(width=800, height=600, bg='white')
-        canvas.pack()
+        # canvas = Canvas(width=800, height=600, bg='white')
+        # canvas.pack()
         canvas.bind('<ButtonPress-1>', self.onStart)
         canvas.bind('<B1-Motion>', self.onDrug)
         canvas.bind('<ButtonRelease-1>', self.onRelease)
@@ -29,7 +33,7 @@ class CanvasEventsDemo:
     def onDrug(self, event):
         canvas = event.widget
         if self.drawn: canvas.delete(self.drawn)
-        objectId = canvas.create_line(self.start.x, self.start.y, event.x, event.y, width=1, arrow=LAST)
+        objectId = canvas.create_line(self.start.x, self.start.y, event.x, event.y, width=2, arrow=LAST)
         if trace: print(objectId)
         self.drawn = objectId
 
@@ -58,7 +62,6 @@ def getBestDist(A, B):
             min(distance.euclidean(A.src, B.dst), distance.euclidean(A.dst, B.src), A.dist, B.dist) +
             distance.euclidean(A.dst, B.dst))
 
-
 def calcMetrics():
     print('\nTrips:')
     for trip in trips:
@@ -80,7 +83,8 @@ def calcMetrics():
 
     pos = nx.random_layout(G)
     nx.draw_networkx_nodes(G, pos)
-    nx.draw_networkx_edges(G, pos, width=weight,)
+    nx.draw_networkx_edges(G, pos)
+
     plt.axis('off')
     plt.savefig("weighted_graph.png")  # save as png
     plt.show()  # display
