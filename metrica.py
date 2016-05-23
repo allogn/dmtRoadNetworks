@@ -9,10 +9,11 @@ trace = 0
 trips = []
 edges = []
 
-canvas = Canvas(width = 1330, height = 700, bg = 'yellow')
-canvas.pack(expand = YES, fill = BOTH)
-gif1 = PhotoImage(file = 'C:\\dev\\map.png')
-canvas.create_image(0, 0, image = gif1, anchor = NW)
+canvas = Canvas(width=1330, height=700, bg='yellow')
+canvas.pack(expand=YES, fill=BOTH)
+gif1 = PhotoImage(file='map.png')
+canvas.create_image(0, 0, image=gif1, anchor=NW)
+
 
 class CanvasEventsDemo:
     def __init__(self, parent=None):
@@ -62,6 +63,7 @@ def getBestDist(A, B):
             min(distance.euclidean(A.src, B.dst), distance.euclidean(A.dst, B.src), A.dist, B.dist) +
             distance.euclidean(A.dst, B.dst))
 
+
 def calcMetrics():
     print('\nTrips:')
     for trip in trips:
@@ -88,6 +90,7 @@ def calcMetrics():
     plt.axis('off')
     plt.savefig("weighted_graph.png")  # save as png
     plt.show()  # display
+
 
 CanvasEventsDemo()
 mainloop()

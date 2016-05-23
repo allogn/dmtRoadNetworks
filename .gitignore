@@ -1,0 +1,7 @@
+*.name
+*.iml
+.idea/encodings.xml
+*.pyc
+.idea/workspace.xml
+.idea/misc.xml
+.idea/modules.xml
