@@ -1,50 +1,26 @@
 from itertools import permutations
 
 
-def filter_paths(pset):
-    for permut in pset.copy():
-        dic = dict.fromkeys(trips, 0)
+def filter_paths(path_set):
+    for path in path_set.copy():
+        passengers = dict.fromkeys(trips, 0)
 
-        for index, point in enumerate(permut[:-1]):
-            in_car = 0
-            empty_car = 0
-            for val in dic.values():
-                if val == 1:
-                    in_car = 1
-                    break
+        for i, point in enumerate(path[:-1]):
 
-            if dic[point] == 0:
-                dic[point] += 1
-            else:
-                dic[point] = 0
+            is_car_is_empty = True if sum(passengers.values()) == 0 else False
+            passengers[point] ^= 1  # XOR
 
-            if sum(dic.values()) == 0:
-                empty_car = 1
-
-            if index > 0 and empty_car > 0:
-                print('empty car')
-                print('permutation removed on step ', index)
-                print(dic.values())
-                pset.remove(permut)
+            if is_car_is_empty and i > 0:
+                path_set.remove(path)
                 break
 
-            if point == permut[index+1]:
-                print('check it')
-                if in_car == 0:
-                    print('permutation removed on step ', index)
-                    print(dic.values())
-                    pset.remove(permut)
-                    break
-
-        print(permut)
-        print()
-    return pset
-
+    return path_set
 
 trips = ['A', 'B', 'C', 'D']
 points = trips + trips
 perm = permutations(points)
-pset = set(perm)
-paths = filter_paths(pset)
+path_set = set(perm)
+filter_paths(path_set)
 
-print(len(paths))
+# print(len(paths))
+print(len(path_set))
