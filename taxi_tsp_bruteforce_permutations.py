@@ -12,13 +12,12 @@ def filter_paths(path_set):
 
 
 def is_path_is_not_valid(path):
-    passengers_in_car = dict.fromkeys(trips, 0)
+    passengers_in_car_from = dict.fromkeys(trips, 0)
     for i, path_point in enumerate(path[:-1]):
 
-        is_car_is_empty = True if sum(passengers_in_car.values()) == 0 else False
-        passengers_in_car[path_point] ^= 1  # XOR
+        passengers_in_car_from[path_point] ^= 1  # XOR
 
-        if i > 0 and is_car_is_empty :
+        if sum(passengers_in_car_from.values()) == 0:
             return True
 
     return False
@@ -33,6 +32,3 @@ filter_paths(path_set)
 
 print(*path_set, sep='\n')
 print(len(path_set))
-
-
-
