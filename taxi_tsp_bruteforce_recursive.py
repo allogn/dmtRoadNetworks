@@ -1,5 +1,7 @@
-#not working yet
-
+"""
+Sandbox for experiments with recursion
+not working yet
+"""
 import math
 
 from itertools import permutations

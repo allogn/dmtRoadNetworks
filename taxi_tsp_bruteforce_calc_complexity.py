@@ -1,3 +1,8 @@
+"""
+Recursive Calculation of number of valid path
+ for asymptotic complexity analysis
+ for design of brute-force method
+"""
 import math
 
 

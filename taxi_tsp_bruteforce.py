@@ -1,3 +1,12 @@
+"""
+Find the best route for set of trips
+ by brute-force
+
+TODO:
+ Brunch-n-bound for cutting tree
+ Heuristic sub-optimal solver
+"""
+
 from itertools import permutations
 from trip import Trip
 from path import Path
@@ -6,7 +15,12 @@ from path import Path
 def get_best_path(trips):
 
     paths = get_all_possible_paths(trips)
+    best_path = find_best_path(paths, trips)
 
+    return best_path
+
+
+def find_best_path(paths, trips):
     min_dist = float('inf')
     for path in paths:
         p = make_path(path, trips)
@@ -15,9 +29,7 @@ def get_best_path(trips):
         if dist < min_dist:
             min_dist = dist
             min_path = path
-
     best_path = Path(min_path, min_dist)
-
     return best_path
 
 
@@ -31,17 +43,31 @@ def make_path(path, trips):
 
 
 def get_all_possible_paths(trips):
+    """
+    >>> len(get_all_possible_paths(['A','B']))
+    4
+    >>> len(get_all_possible_paths(['A','B','C']))
+    60
+    >>> len(get_all_possible_paths(['A','B','C','D']))
+    1776
+    """
     points = trips + trips
     perm = permutations(points)
     path_set = set(perm)
     for path in path_set.copy():
-        if is_path_is_not_valid(path):
+        if is_path_is_not_valid(path, trips):
             path_set.remove(path)
             continue
     return path_set
 
 
-def is_path_is_not_valid(path):
+def is_path_is_not_valid(path, trips):
+    """
+    Car should always has a passenger, otherwise trips are separate
+
+    >>> is_path_is_not_valid(['A','A','B','C','B','C'],['A','B','C'])
+    True
+    """
     passengers_in_car_from = dict.fromkeys(trips, 0)
     for i, path_point in enumerate(path[:-1]):
 
@@ -78,15 +104,19 @@ def total_distance(points):
     return sum([distance(point, points[index + 1]) for index, point in enumerate(points[:-1])])
 
 
-A = Trip((1, 5), (1, 10))
-B = Trip((2, 7), (4, 15))
-C = Trip((5, 8), (3, 17))
-D = Trip((3, 5), (5, 16))
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
 
-trips = [A, B, C, D]
+    A = Trip((1, 5), (1, 10))
+    B = Trip((2, 7), (4, 15))
+    C = Trip((5, 8), (3, 17))
+    D = Trip((3, 5), (5, 16))
 
-best_path = get_best_path(trips)
-print(best_path.dist)
+    trips = [A, B, C, D]
+
+    best_path = get_best_path(trips)
+    print(best_path.dist)
 
 
 
