@@ -13,14 +13,23 @@ from path import Path
 
 
 def get_best_path(trips):
-
+    # """
+    # >>> A = Trip((100, 300), (400, 100))
+    # >>> B = Trip((300, 100), (600, 200))
+    # >>> C = Trip((500, 100), (700, 400))
+    # >>> D = Trip((600, 350), (900, 200))
+    # >>> trips = [A, B, C, D]
+    # >>> best_path = get_best_path(trips)
+    # >>> print(best_path.dist)
+    # 886.067467586918
+    # """
     paths = get_all_possible_paths(trips)
-    best_path = find_best_path(paths, trips)
+    best_path = find_min_path(paths, trips)
 
     return best_path
 
 
-def find_best_path(paths, trips):
+def find_min_path(paths, trips):
     min_dist = float('inf')
     for path in paths:
         p = make_path(path, trips)
@@ -28,15 +37,15 @@ def find_best_path(paths, trips):
 
         if dist < min_dist:
             min_dist = dist
-            min_path = path
-    best_path = Path(min_path, min_dist)
-    return best_path
+            min_path = p
+    min_path = Path(min_path, min_dist)
+    return min_path
 
 
 def make_path(path, trips):
     path_points = []
     passengers_in_car_from = dict.fromkeys(trips, 0)
-    for i, path_point in enumerate(path[:-1]):
+    for path_point in path:
         path_points.append(path_point.src if passengers_in_car_from[path_point] == 0 else path_point.dst)
         passengers_in_car_from[path_point] ^= 1  # XOR
     return path_points
@@ -100,6 +109,8 @@ def total_distance(points):
     5.0
     >>> total_distance([[3,6],[7,6],[12,6]])
     9.0
+    >>> total_distance([(100, 300), (300, 100), (400, 100), (500, 100), (600, 200), (600, 350), (700, 400), (900, 200)])
+    1168.9101800615372
     """
     return sum([distance(point, points[index + 1]) for index, point in enumerate(points[:-1])])
 
@@ -108,18 +119,12 @@ if __name__ == "__main__":
     import doctest
     doctest.testmod()
 
-    A = Trip((1, 5), (1, 10))
-    B = Trip((2, 7), (4, 15))
-    C = Trip((5, 8), (3, 17))
-    D = Trip((3, 5), (5, 16))
+    A = Trip((100, 300), (400, 100))
+    B = Trip((300, 100), (600, 200))
+    C = Trip((500, 100), (700, 400))
+    D = Trip((600, 350), (900, 200))
 
     trips = [A, B, C, D]
 
     best_path = get_best_path(trips)
     print(best_path.dist)
-
-
-
-
-
-
