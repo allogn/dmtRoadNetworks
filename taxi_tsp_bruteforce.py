@@ -128,3 +128,4 @@ if __name__ == "__main__":
 
     best_path = get_best_path(trips)
     print(best_path.dist)
+    print(*best_path.points, sep='\n')
