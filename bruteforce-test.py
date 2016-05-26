@@ -4,10 +4,8 @@ import networkx as nx
 from path_combinations import *
 from metrica import calc_metrics
 
-Graph = nx.Graph()
-edges = []
 
-#testcase
+# test-case
 A = Trip((100, 300), (400, 100))
 B = Trip((300, 100), (600, 200))
 C = Trip((500, 100), (700, 400))
@@ -17,18 +15,18 @@ F = Trip((900, 400), (1200, 300))
 G = Trip((1050, 300), (1400, 500))
 H = Trip((1300, 550), (1100, 200))
 
-trips = [B, C, D]
-# trips = [A, B, C, D, E]
+# trips = [B, C, D]
+trips = [A, B, C, D, E]
 # trips = [A, B, C, D, E, F, G, H]
 
-#calculation
+# calculation
 sum_of_separate_trips = calc_dist_sum_of_separate_trips(trips)
 best_path = get_best_path(trips)
 min_partition_set, min_sum = find_best_partitioning(trips)
-edges = calc_metrics(trips, Graph)
+edges = calc_metrics(trips)
 
 
-#console output
+# console output
 print('\nTrips:')
 for trip in trips:
     trip.display()
@@ -46,7 +44,7 @@ print('\nEdges:')
 print(*(e[2] for e in edges), sep='\n')
 
 
-#GUI
+# GUI
 canvas = Canvas(width=1400, height=700)
 canvas.pack(expand=YES, fill=BOTH)
 
@@ -59,6 +57,7 @@ for i, p in enumerate(best_path.points[:-1]):
 
 mainloop()
 
+Graph = nx.Graph()
 Graph.add_weighted_edges_from(edges)
 pos = nx.random_layout(Graph)
 nx.draw_networkx_nodes(Graph, pos)
