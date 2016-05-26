@@ -52,31 +52,19 @@ def get_best_path(trips):
     1168.9101800615372
     """
     paths = get_all_possible_paths(trips)
-    best_path = find_min_path(paths, trips)
+    best_path = find_min_path(paths)
 
     return best_path
 
 
-def find_min_path(paths, trips):
+def find_min_path(paths):
     min_dist = float('inf')
-    for path in paths:
-        p = make_path(path, trips)
-        dist = total_distance(p)
-
-        if dist < min_dist:
-            min_dist = dist
-            min_path = p
-    min_path = Path(min_path, min_dist)
+    for p in paths:
+        pth = Path(p)
+        if pth.dist < min_dist:
+            min_dist = pth.dist
+            min_path = pth
     return min_path
-
-
-def make_path(path, trips):
-    path_points = []
-    passengers_in_car_from = dict.fromkeys(trips, 0)
-    for path_point in path:
-        path_points.append(path_point.src if passengers_in_car_from[path_point] == 0 else path_point.dst)
-        passengers_in_car_from[path_point] ^= 1  # XOR
-    return path_points
 
 
 def get_all_possible_paths(trips):

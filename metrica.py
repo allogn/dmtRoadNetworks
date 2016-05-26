@@ -2,16 +2,16 @@ import itertools
 from path_combinations import *
 from shortest_path import get_shortest_dist
 
-def calc_metrics(trips):
+
+def trips_2_graph(trips):
     edges = []
     for a, b in itertools.combinations(trips, 2):
         #TODO if isTimeTestFail(): continue
-        bestDist = get_best_dist_for_two(a, b)
-        sumDist = calc_dist_sum_of_separate_trips((a, b))
-        if bestDist > sumDist:
+        best_dist = get_best_dist_for_two(a, b)
+        sum_dist = calc_dist_sum_of_separate_trips((a, b))
+        if best_dist > sum_dist:
             continue
-
-        weight = weigh(a, b, bestDist, sumDist)
+        weight = weigh(a, b, best_dist, sum_dist)
         edges.append((a, b, weight))
     return edges
 
@@ -23,6 +23,7 @@ def weigh(a, b, bestDist, sumDist):
     delta = sumDist - bestDist
     coPathCoeff = maxDist / bestDist
     effect = delta / bestDist
+    # diviation = calc_diviation((a,b))
     weight = effect * coPathCoeff
     return weight
 

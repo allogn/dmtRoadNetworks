@@ -1,12 +1,32 @@
-class Path:
-    def __init__(self, points, dist=None):
-        self.points = points
-        self.dist = dist
-        # self.sum_dist = self.calc_dist_sum_of_separate_trips()
-        # self.diviation = dist
+from enum import IntEnum
 
-    def get_clients(self):
-        return
+
+class PointType(IntEnum):
+    src = 0
+    dst = 1
+
+
+class Path:
+    def __init__(self, points):
+        self.points = points
+        self.clients = set(points)
+        self.path_points = []
+        self.path_points_type = []
+        passengers_in_car_from = dict.fromkeys(self.clients, 0)
+        for path_point in points:
+            self.path_points.append(path_point.src if passengers_in_car_from[path_point] == 0 else path_point.dst)
+            self.path_points_type.append(PointType.src if passengers_in_car_from[path_point] == 0 else PointType.dst)
+            passengers_in_car_from[path_point] ^= 1  # XOR
+
+        self.dist = total_distance(self.path_points)
+        self.sum_dist = calc_dist_sum_of_separate_trips(self.clients)
+        # self.diviation = calc_diviation(self.clients, self.points)
+
+    def display(self):
+        for i, p in enumerate(self.points):
+            print(p.name, self.path_points_type[i].name, self.path_points[i])
+        print(self.dist)
+        print(self.sum_dist)
 
 
 def calc_diviation(trips, path):

@@ -2,29 +2,26 @@ from tkinter import *
 import matplotlib.pyplot as plt
 import networkx as nx
 from path_combinations import *
-from metrica import calc_metrics
+from metrica import trips_2_graph
 
 
 # test-case
-A = Trip((100, 300), (400, 100))
-B = Trip((300, 100), (600, 200))
-C = Trip((500, 100), (700, 400))
-D = Trip((500, 350), (900, 200))
-E = Trip((800, 150), (1000, 500))
-F = Trip((900, 400), (1200, 300))
-G = Trip((1050, 300), (1400, 500))
-H = Trip((1300, 550), (1100, 200))
+A = Trip((100, 300), (400, 100), 'A')
+B = Trip((300, 100), (600, 200), 'B')
+C = Trip((500, 100), (700, 400), 'C')
+D = Trip((500, 350), (900, 200), 'D')
+E = Trip((800, 150), (1000, 500), 'E')
+F = Trip((900, 400), (1200, 300), 'F')
+G = Trip((1050, 300), (1400, 500), 'G')
+H = Trip((1300, 550), (1100, 200), 'H')
 
-# trips = [B, C, D]
+# trips = [A, B]
 trips = [A, B, C, D, E]
 # trips = [A, B, C, D, E, F, G, H]
 
 # calculation
 sum_of_separate_trips = calc_dist_sum_of_separate_trips(trips)
 best_path = get_best_path(trips)
-min_partition_set, min_sum = find_best_partitioning(trips)
-edges = calc_metrics(trips)
-
 
 # console output
 print('\nTrips:')
@@ -37,11 +34,17 @@ print('best_path dist = ', best_path.dist)
 print('sum of separate trips = ', sum_of_separate_trips)
 print('delta = ', sum_of_separate_trips - best_path.dist)
 
+min_partition_set, min_sum = find_best_partitioning(trips)
 print('\nBEST SOLUTION\nmin partition set:',min_partition_set)
 print('best dist = ', min_sum)
 
+
+edges = trips_2_graph(trips)
 print('\nEdges:')
 print(*(e[2] for e in edges), sep='\n')
+
+path = get_best_path(trips)
+path.display()
 
 
 # GUI
@@ -50,8 +53,8 @@ canvas.pack(expand=YES, fill=BOTH)
 
 for t in trips:
     canvas.create_line(*t.src, *t.dst, width=2, arrow=LAST)
-for i, p in enumerate(best_path.points[:-1]):
-    canvas.create_line(*best_path.points[i], *best_path.points[i+1], width=4, arrow=LAST, fill='green')
+for i, p in enumerate(best_path.path_points[:-1]):
+    canvas.create_line(*best_path.path_points[i], *best_path.path_points[i+1], width=4, arrow=LAST, fill='green')
 # TODO draw best partition path
 # for i, p in enumerate(best_path.points[:-1]):
 
