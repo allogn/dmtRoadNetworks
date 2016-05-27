@@ -25,6 +25,8 @@ def weigh(a, b, bestDist, sumDist):
     # coPathCoeff = maxDist / bestDist
     effect = delta / sumDist
     p = get_best_path((a, b))
+    deviation = calc_deviation(p)
+    weight = effect * deviation
     return weight
 
 

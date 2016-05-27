@@ -30,9 +30,11 @@ class Path:
         print(self.sum_dist)
 
 
+def calc_deviation(path):
     for i, p in enumerate(path.points):
         print(p.name, path.path_points_type[i].name, path.path_points[i])
 
+    client_deviation = dict.fromkeys(path.clients, 0)
 
     for client in path.clients:
         client_path = []
@@ -43,9 +45,16 @@ class Path:
             if in_car:
                 client_path.append(path.path_points[i])
             if client == client_point and path.path_points_type[i] == PointType.dst:
+                client_deviation[client] = total_distance(client_path)
                 break
 
+    mean_deviation = 0
     for c in path.clients:
+        mean_deviation += c.dist / client_deviation[c]
+        print('client', c.name, 'diviation =', client_deviation[c], 'dist =', c.dist)
+    mean_deviation /= len(path.clients)
+    print('mean diviation', mean_deviation)
+    return mean_deviation
 
 
 def calc_dist_sum_of_separate_trips(trips):
