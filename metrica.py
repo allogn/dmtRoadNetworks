@@ -10,6 +10,7 @@ def trips_2_graph(trips):
         best_dist = get_best_dist_for_two(a, b)
         sum_dist = calc_dist_sum_of_separate_trips((a, b))
         if best_dist > sum_dist:
+            print(a, b, 'skiped')
             continue
         weight = weigh(a, b, best_dist, sum_dist)
         edges.append((a, b, weight))
@@ -19,12 +20,11 @@ def trips_2_graph(trips):
 def weigh(a, b, bestDist, sumDist):
     dist_a = get_shortest_dist(a.src, a.dst)
     dist_b = get_shortest_dist(b.src, b.dst)
-    maxDist = max(dist_a, dist_b)
+    # maxDist = max(dist_a, dist_b)
     delta = sumDist - bestDist
-    coPathCoeff = maxDist / bestDist
-    effect = delta / bestDist
-    # diviation = calc_diviation((a,b))
-    weight = effect * coPathCoeff
+    # coPathCoeff = maxDist / bestDist
+    effect = delta / sumDist
+    p = get_best_path((a, b))
     return weight
 
 

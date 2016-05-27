@@ -12,6 +12,7 @@ class Path:
         self.clients = set(points)
         self.path_points = []
         self.path_points_type = []
+
         passengers_in_car_from = dict.fromkeys(self.clients, 0)
         for path_point in points:
             self.path_points.append(path_point.src if passengers_in_car_from[path_point] == 0 else path_point.dst)
@@ -20,7 +21,7 @@ class Path:
 
         self.dist = total_distance(self.path_points)
         self.sum_dist = calc_dist_sum_of_separate_trips(self.clients)
-        # self.diviation = calc_diviation(self.clients, self.points)
+        # self.diviation = calc_diviation(self, points)
 
     def display(self):
         for i, p in enumerate(self.points):
@@ -29,8 +30,22 @@ class Path:
         print(self.sum_dist)
 
 
-def calc_diviation(trips, path):
-    sum([distance(point, path.points[index + 1]) for index, point in enumerate(path.points[:-1])])
+    for i, p in enumerate(path.points):
+        print(p.name, path.path_points_type[i].name, path.path_points[i])
+
+
+    for client in path.clients:
+        client_path = []
+        in_car = False
+        for i, client_point in enumerate(path.points):
+            if client == client_point and path.path_points_type[i] == PointType.src:
+                in_car = True
+            if in_car:
+                client_path.append(path.path_points[i])
+            if client == client_point and path.path_points_type[i] == PointType.dst:
+                break
+
+    for c in path.clients:
 
 
 def calc_dist_sum_of_separate_trips(trips):

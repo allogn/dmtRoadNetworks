@@ -1,5 +1,5 @@
 from itertools import permutations
-from trip import Trip
+from client import Client
 from path import *
 
 
@@ -42,10 +42,10 @@ def get_partitions(set_):
 
 def get_best_path(trips):
     """
-    >>> A = Trip((100, 300), (400, 100))
-    >>> B = Trip((300, 100), (600, 200))
-    >>> C = Trip((500, 100), (700, 400))
-    >>> D = Trip((600, 350), (900, 200))
+    >>> A = Client((100, 300), (400, 100))
+    >>> B = Client((300, 100), (600, 200))
+    >>> C = Client((500, 100), (700, 400))
+    >>> D = Client((600, 350), (900, 200))
     >>> trips = [A, B, C, D]
     >>> best_path = get_best_path(trips)
     >>> print(best_path.dist)
