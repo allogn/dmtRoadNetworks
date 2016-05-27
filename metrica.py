@@ -10,7 +10,6 @@ def trips_2_graph(trips):
         best_dist = get_best_dist_for_two(a, b)
         sum_dist = calc_dist_sum_of_separate_trips((a, b))
         if best_dist > sum_dist:
-            print(a, b, 'skiped')
             continue
         weight = weigh(a, b, best_dist, sum_dist)
         edges.append((a, b, weight))

@@ -31,9 +31,6 @@ class Path:
 
 
 def calc_deviation(path):
-    for i, p in enumerate(path.points):
-        print(p.name, path.path_points_type[i].name, path.path_points[i])
-
     client_deviation = dict.fromkeys(path.clients, 0)
 
     for client in path.clients:
@@ -51,9 +48,9 @@ def calc_deviation(path):
     mean_deviation = 0
     for c in path.clients:
         mean_deviation += c.dist / client_deviation[c]
-        print('client', c.name, 'diviation =', client_deviation[c], 'dist =', c.dist)
     mean_deviation /= len(path.clients)
-    print('mean diviation', mean_deviation)
+    # print('mean deviation', mean_deviation)
+
     return mean_deviation
 
 
