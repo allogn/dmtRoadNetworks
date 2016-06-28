@@ -17,8 +17,8 @@ F = Trip((900, 400), (1200, 300))
 G = Trip((1050, 300), (1400, 500))
 H = Trip((1300, 550), (1100, 200))
 
-trips = [B, C, D]
-# trips = [A, B, C, D, E]
+trips = [C, D]
+# trips = [D, E]
 # trips = [A, B, C, D, E, F, G, H]
 
 #calculation
@@ -48,6 +48,7 @@ print(*(e[2] for e in edges), sep='\n')
 
 #GUI
 canvas = Canvas(width=1400, height=700)
+canvas.configure(background='white')
 canvas.pack(expand=YES, fill=BOTH)
 
 for t in trips:

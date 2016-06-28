@@ -7,33 +7,31 @@ import math
 import doctest
 
 
-def comb(waiting, inCar):
+def combinations(passengers_waiting, passengers_in_car):
     """
-    >>> comb(2,0)
+    >>> combinations(2,0)
     4
-    >>> comb(3,0)
+    >>> combinations(3,0)
     60
-    >>> comb(4,0)
+    >>> combinations(4,0)
     1776
-    >>> comb(5,0)
+    >>> combinations(5,0)
     84720
     """
-    if waiting == 0:
-        return math.factorial(inCar) if inCar > 1 else 1
-
-    result = waiting * comb(waiting - 1, inCar + 1)
-    if inCar > 1:
-        result += inCar * comb(waiting, inCar - 1)
-
+    if passengers_waiting == 0:
+        return math.factorial(passengers_in_car) if passengers_in_car > 1 else 1
+    result = passengers_waiting * combinations(passengers_waiting - 1, passengers_in_car + 1)
+    if passengers_in_car > 1:
+        result += passengers_in_car * combinations(passengers_waiting, passengers_in_car - 1)
     return result
 
 
 doctest.testmod()
 
 nClients = 5
-# z = nClients * (nClients - 1) * comb3(nClients - 2, 2)
-# z = nClients*comb3(nClients-1, 1)
-z = comb(nClients, 0)
+z = combinations(nClients, 0)
+# z = nClients * (nClients - 1) * comb(nClients - 2, 2)
+# z = nClients*comb(nClients-1, 1)
 
 print('sum', z)
 

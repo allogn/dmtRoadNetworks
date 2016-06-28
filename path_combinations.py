@@ -6,7 +6,7 @@ from path import *
 def find_best_partitioning(trips):
 
     all_partitions_set = list(get_partitions(set(range(len(trips)))))
-    min_partition_set = ()
+    best_partition_set = ()
     min_sum = float('inf')
 
     for partition_set in all_partitions_set:
@@ -14,17 +14,17 @@ def find_best_partitioning(trips):
         # if max(len(partition) for partition in partition_set) > 4:
         #     # print('\nSkipped partition set', partition_set)
         #     continue
-        for partition_index in partition_set:
-            t = [trips[i] for i in partition_index]
+        for partition in partition_set:
+            t = [trips[i] for i in partition]
             best_path = get_best_path(t)
             sum_dist += best_path.dist
         # print(partition_set)
         # print(sum_dist)
         if sum_dist < min_sum:
             min_sum = sum_dist
-            min_partition_set = partition_set
+            best_partition_set = partition_set
 
-    return min_partition_set, min_sum
+    return best_partition_set, min_sum
 
 
 def get_partitions(set_):
