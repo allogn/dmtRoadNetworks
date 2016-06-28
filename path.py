@@ -1,16 +1,57 @@
+from enum import IntEnum
+
+
+class PointType(IntEnum):
+    src = 0
+    dst = 1
+
+
 class Path:
-    def __init__(self, points, dist=None):
+    def __init__(self, points):
         self.points = points
-        self.dist = dist
-        # self.sum_dist = self.calc_dist_sum_of_separate_trips()
-        # self.diviation = dist
+        self.clients = set(points)
+        self.path_points = []
+        self.path_points_type = []
 
-    def get_clients(self):
-        return
+        passengers_in_car_from = dict.fromkeys(self.clients, 0)
+        for path_point in points:
+            self.path_points.append(path_point.src if passengers_in_car_from[path_point] == 0 else path_point.dst)
+            self.path_points_type.append(PointType.src if passengers_in_car_from[path_point] == 0 else PointType.dst)
+            passengers_in_car_from[path_point] ^= 1  # XOR
+
+        self.dist = total_distance(self.path_points)
+        self.sum_dist = calc_dist_sum_of_separate_trips(self.clients)
+        # self.diviation = calc_diviation(self, points)
+
+    def display(self):
+        for i, p in enumerate(self.points):
+            print(p.name, self.path_points_type[i].name, self.path_points[i])
+        print(self.dist)
+        print(self.sum_dist)
 
 
-def calc_diviation(trips, path):
-    sum([distance(point, path.points[index + 1]) for index, point in enumerate(path.points[:-1])])
+def calc_deviation(path):
+    client_deviation = dict.fromkeys(path.clients, 0)
+
+    for client in path.clients:
+        client_path = []
+        in_car = False
+        for i, client_point in enumerate(path.points):
+            if client == client_point and path.path_points_type[i] == PointType.src:
+                in_car = True
+            if in_car:
+                client_path.append(path.path_points[i])
+            if client == client_point and path.path_points_type[i] == PointType.dst:
+                client_deviation[client] = total_distance(client_path)
+                break
+
+    mean_deviation = 0
+    for c in path.clients:
+        mean_deviation += c.dist / client_deviation[c]
+    mean_deviation /= len(path.clients)
+    # print('mean deviation', mean_deviation)
+
+    return mean_deviation
 
 
 def calc_dist_sum_of_separate_trips(trips):

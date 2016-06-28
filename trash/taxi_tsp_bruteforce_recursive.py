@@ -5,11 +5,11 @@ not working yet
 import math
 
 from itertools import permutations
-from trip import Trip
+from client import Client
 
 
 
-trips = [Trip('A', 'a'), Trip('B', 'b'), Trip('C', 'c')]
+trips = [Client('A', 'a'), Client('B', 'b'), Client('C', 'c')]
 [trip.display() for trip in trips]
 
 
