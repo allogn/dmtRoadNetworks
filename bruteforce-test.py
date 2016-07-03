@@ -1,8 +1,11 @@
 from tkinter import *
 import matplotlib.pyplot as plt
 import networkx as nx
-from path_combinations import *
-from metrica import calc_metrics
+
+from dmtRoadNetworks.path import calc_dist_sum_of_separate_trips
+from dmtRoadNetworks.path_combinations import *
+from dmtRoadNetworks.metrica import calc_metrics
+from dmtRoadNetworks.trip import Trip
 
 Graph = nx.Graph()
 edges = []

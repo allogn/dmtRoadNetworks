@@ -1,6 +1,8 @@
 import itertools
-from path_combinations import *
-from shortest_path import get_shortest_dist
+
+from dmtRoadNetworks.path import calc_deviation, calc_dist_sum_of_separate_trips
+from dmtRoadNetworks.path_combinations import *
+from dmtRoadNetworks.shortest_path import get_shortest_dist
 
 
 def trips_2_graph(trips):
